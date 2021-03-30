@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+
+  nginx:
+    container_name: nginx
+    restart: always
+    image: nginx:stable-alpine
+    ports:
+      - target: 80      # the port inside the container
+        published: 8080 # the publicly exposed port
+        protocol: tcp   # the port protocol (tcp or udp)
+        mode: host      # 'host' for publishing a host port on each node, or 'ingress' for a swarm mode port to be load balanced.
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+  golang-server:
+    container_name: golang-server
+    restart: always
+    image: golang:1.16.2-alpine3.13
+    shm_size: 1g # shared memory size. Unit is optional and can be b (bytes), k (kilobytes), m (megabytes), or g (gigabytes).
+    working_dir: /usr/src/myapp # source code directory
+    command: go run .
+    volumes:
+      - ./source:/usr/src/myapp # source code directory volume mapping
