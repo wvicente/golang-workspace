@@ -37,11 +37,11 @@ $ docker-compose up -d
 ### To attach to the container you can use the container's ID or name
 
 ```
-$ docker container attach golang-server
+$ docker container exec -it -u root golang-server /bin/sh
 ```
 or
 ```
-$ docker container attach nginx
+$ docker container exec -it -u root nginx /bin/sh
 ```
 
 ### To see what is currently running
